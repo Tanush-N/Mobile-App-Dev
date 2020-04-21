@@ -33,14 +33,25 @@ public class QuizDBhelper extends SQLiteOpenHelper {
                 Student.USERNAME + " TEXT, " +
                 Student.PASSWORD + " TEXT, " +
                 Student.ATTEMPTS + " INTEGER " +
+                Student.MARKS + "INTEGER" +
                 ")";
         db.execSQL(CREATE_STUDENT_TABLE);
-        db = getReadableDatabase();
+        insert_record();
+        //db = getReadableDatabase();
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + Student.TABLE_NAME);
         onCreate(db);
+    }
+
+    public void insert_record(){
+        String query1="INSERT INTO Student VALUES (100,'abc','abc@gmail.com','abc','100',0,0);";
+        String query2="INSERT INTO Student VALUES (101,'def','def@gmail.com','def','101',0,0);";
+        String query3="INSERT INTO Student VALUES (102,'xyz','xyz@gmail.com','xyz','102',0,0);";
+        db.execSQL(query1);
+        db.execSQL(query2);
+        db.execSQL(query3);
     }
 }
