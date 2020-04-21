@@ -17,6 +17,7 @@ public class QuizDBhelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MyQuiz.db";
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase db;
+    //private static final String TABLE_NAME= "STUDENT";
 
     public QuizDBhelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -69,5 +70,18 @@ public class QuizDBhelper extends SQLiteOpenHelper {
             c.close();
         }
 
+    }
+
+    public void VerifyStudent(String user,int psw){
+        db=getReadableDatabase();
+        String query="SELECT * FROM " + Student.TABLE_NAME + "WHERE" + Student.USN + "=" +psw+ "AND" + Student.NAME + "=" + user;
+        Cursor c=db.rawQuery(query,null);
+        if(c.getCount()>=0){
+            //intetnt and move to next page -- login successful
+        }
+        else{
+            //invalid login
+        }
+        
     }
 }
