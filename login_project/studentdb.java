@@ -54,4 +54,20 @@ public class QuizDBhelper extends SQLiteOpenHelper {
         db.execSQL(query2);
         db.execSQL(query3);
     }
+
+    public void UpdateRecord(int usn,String name,String mail){
+        db=getReadableDatabase();
+        db=getWritableDatabase();
+        Cursor c=db.rawQuery("SELECT * FROM "+ Student.TABLE_NAME + "WHERE" + Student.USN + "=" +usn,null);
+        if(c.getCount()<=0)
+        {
+            String query="INSERT INTO Student VALUES (usn,name,mail);";
+            c.close();
+        }
+        else{
+            String query="UPDATE Student SET NAME="+name+", EMAIL="+mail+" WHERE USN="+usn+" ;";
+            c.close();
+        }
+
+    }
 }
