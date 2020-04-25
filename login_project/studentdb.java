@@ -72,15 +72,17 @@ public class QuizDBhelper extends SQLiteOpenHelper {
 
     }
 
-    public void VerifyStudent(String user,int psw){
+    public Boolean VerifyStudent(String user,int psw){
         db=getReadableDatabase();
         String query="SELECT * FROM " + Student.TABLE_NAME + "WHERE" + Student.USN + "=" +psw+ "AND" + Student.NAME + "=" + user;
         Cursor c=db.rawQuery(query,null);
         if(c.getCount()>=0){
             //intetnt and move to next page -- login successful
+            return true;
         }
         else{
             //invalid login
+            return false;
         }
         
     }
