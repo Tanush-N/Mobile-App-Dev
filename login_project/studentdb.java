@@ -17,7 +17,7 @@ public class QuizDBhelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MyQuiz.db";
     private static final int DATABASE_VERSION = 1;
     private SQLiteDatabase db;
-    //private static final String TABLE_NAME= "STUDENT";
+    private static final String TABLE= "STUDENT";
 
     public QuizDBhelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -27,15 +27,15 @@ public class QuizDBhelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
         final String CREATE_STUDENT_TABLE = "CREATE TABLE " +
-                Student.TABLE_NAME + " ( " +
-                Student.USN + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                Student.NAME + " TEXT, " +
-                Student.EMAIL + " TEXT, " +
-                Student.USERNAME + " TEXT, " +
-                Student.PASSWORD + " TEXT, " +
-                Student.ATTEMPTS + " INTEGER " +
-                Student.MARKS + "INTEGER" +
-                ")";
+                TABLE + " (
+                USN INTEGER PRIMARY KEY AUTOINCREMENT,
+                NAME TEXT,
+                EMAIL TEXT,
+                USERNAME TEXT,
+                PASSWORD TEXT,
+                ATTEMPTS INTEGER,
+                MARKS INTEGER
+                )";
         db.execSQL(CREATE_STUDENT_TABLE);
         insert_record();
         //db = getReadableDatabase();
@@ -43,7 +43,7 @@ public class QuizDBhelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + Student.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE);
         onCreate(db);
     }
 
@@ -59,7 +59,7 @@ public class QuizDBhelper extends SQLiteOpenHelper {
     public void UpdateRecord(int usn,String name,String mail){
         db=getReadableDatabase();
         db=getWritableDatabase();
-        Cursor c=db.rawQuery("SELECT * FROM "+ Student.TABLE_NAME + "WHERE" + Student.USN + "=" +usn,null);
+        Cursor c=db.rawQuery("SELECT * FROM "+ TABLE + "WHERE" + USN + "=" +usn,null);
         if(c.getCount()<=0)
         {
             String query="INSERT INTO Student VALUES (usn,name,mail);";
@@ -74,7 +74,7 @@ public class QuizDBhelper extends SQLiteOpenHelper {
 
     public Boolean VerifyStudent(String user,int psw){
         db=getReadableDatabase();
-        String query="SELECT * FROM " + Student.TABLE_NAME + "WHERE" + Student.USN + "=" +psw+ "AND" + Student.NAME + "=" + user;
+        String query="SELECT * FROM " + TABLE + "WHERE" + USN + "=" +psw+ "AND" + NAME + "=" + user;
         Cursor c=db.rawQuery(query,null);
         if(c.getCount()>=0){
             //intetnt and move to next page -- login successful
